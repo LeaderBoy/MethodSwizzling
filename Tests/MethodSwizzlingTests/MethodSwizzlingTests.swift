@@ -3,10 +3,16 @@ import XCTest
 
 final class MethodSwizzlingTests: XCTestCase {
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(MethodSwizzling().text, "Hello, World!")
+        exchange(originMethod:#selector(aMethod),with :#selector(bMethod), classInstance: self.classForCoder)
+        XCTAssertEqual(aMethod(), "B")
+    }
+    
+    @objc dynamic func aMethod() -> String {
+        return "A"
+    }
+    
+    @objc dynamic func bMethod() -> String {
+        return "B"
     }
 
     static var allTests = [
